@@ -18,7 +18,7 @@ async function howMuchEth(transactions) {
       result += numValue;
     }
   }
-  console.log("total tx value", result);
+  // console.log("total tx value", result);
   return result;
 }
 
@@ -61,7 +61,7 @@ async function txByUser(transactions, userType) {
     return acc;
   }, []);
 
-  console.log(`${userType}s`, result);
+  // console.log(`${userType}s`, result);
   return result;
 }
 
@@ -70,21 +70,28 @@ async function exploreBlock(blockNum) {
   const block = await web3.eth.getBlock(blockNum);
   const transactions = block.transactions;
 
-  // returns total value exchanged
-  await howMuchEth(transactions);
+  // // returns total value exchanged
+  // await howMuchEth(transactions);
 
-  // displays receivers with address - amount - isContract
-  await txByUser(transactions, "receiver");
+  // // displays receivers with address - amount - isContract
+  // await txByUser(transactions, "receiver");
 
-  // displays senders with address - amount - isContract
-  await txByUser(transactions, "sender");
+  // // displays senders with address - amount - isContract
+  // await txByUser(transactions, "sender");
+
+  const result = {
+    block: blockNum,
+    txAmount: await howMuchEth(transactions),
+    receivers: await txByUser(transactions, "receiver"),
+    senders: await txByUser(transactions, "sender"),
+  };
+
+  // console.log(result);
+  return result;
 }
 
 exploreBlock(12209809)
 
 module.exports = {
   exploreBlock,
-  howMuchEth,
-  isContract,
-  txByUser,
 };

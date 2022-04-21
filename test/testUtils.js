@@ -14,7 +14,7 @@ async function howMuchEth(transactions) {
       result += numValue;
     }
   }
-  console.log("total tx value", result);
+  //   console.log("total tx value", result);
   return result;
 }
 
@@ -57,7 +57,7 @@ async function txByUser(transactions, userType) {
     return acc;
   }, []);
 
-  console.log(`${userType}s`, result);
+  //   console.log(`${userType}s`, result);
   return result;
 }
 
@@ -66,32 +66,41 @@ async function exploreBlock(blockNum) {
   const block = await web3.eth.getBlock(blockNum);
   const transactions = block.transactions;
 
-  // returns total value exchanged
-  await howMuchEth(transactions);
+  const result = {
+    block: blockNum,
+    txAmount: await howMuchEth(transactions),
+    receivers: await txByUser(transactions, "receiver"),
+    senders: await txByUser(transactions, "sender"),
+  };
 
-  // displays receivers with address - amount - isContract
-  await txByUser(transactions, "receiver");
-
-  // displays senders with address - amount - isContract
-  await txByUser(transactions, "sender");
+  //   console.log(result);
+  return result;
 }
 
 async function mixRange(param1, param2) {
+  const result = [];
   let blockNumbers;
   if (arguments.length == 1) {
     const latest = await web3.eth.getBlockNumber();
     blockNumbers = range(latest, latest - param1, -1);
   } else if (arguments.length == 2) {
-    blockNumbers = range(param1, param2, -1);
+    blockNumbers = range(param1, param2 - 1, -1);
   } else {
     throw "this function can only take one or two parameters";
   }
   for (let i = 0; i < blockNumbers.length; i++) {
-    await exploreBlock(blockNumbers[i]);
+    const data = await exploreBlock(blockNumbers[i]);
+    // console.log(data)        // only to see what it looks like in testing
+    result.push(data);
   }
+//   console.log(result);
+  return result;
 }
 
 module.exports = {
-    mixRange
-}
-
+  mixRange,
+  howMuchEth,
+  txByUser,
+  isContract,
+  exploreBlock,
+};

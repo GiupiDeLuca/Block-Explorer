@@ -72,12 +72,13 @@ contract Wallet is ReentrancyGuard, Pausable, Ownable {
      * @dev Allows the caller to transfer _amount of ETH to _address
      */
 
-    function transfer(address payable _to) public payable whenNotPaused returns (bool _success) {
+    function transferTo(address payable _to) public payable whenNotPaused returns (bool _success) {
         require( balances[payable(msg.sender)] >= msg.value, "not enough balance");
         require(_to != address(0));
         // updates balances
         balances[payable(msg.sender)] = balances[payable(msg.sender)].sub(msg.value);
         balances[payable(_to)] = balances[payable(_to)].add(msg.value);
+        // payable(_to).transfer(msg.value);
         // emits event
         emit transferSuccessful(msg.sender, _to, msg.value);
         _success = true;
