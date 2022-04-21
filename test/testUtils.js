@@ -1,10 +1,6 @@
 const Web3 = require("web3");
-const web3 = new Web3(
-  new Web3.providers.HttpProvider(
-    "https://speedy-nodes-nyc.moralis.io/3dfe6a6f91e3588b00c753e3/eth/ropsten"
-  )
-);
-
+const web3 = new Web3("ws://localhost:8545");
+const range = require("lodash.range");
 
 async function howMuchEth(transactions) {
   let result = 0;
@@ -80,11 +76,22 @@ async function exploreBlock(blockNum) {
   await txByUser(transactions, "sender");
 }
 
-exploreBlock(12209809)
+async function mixRange(param1, param2) {
+  let blockNumbers;
+  if (arguments.length == 1) {
+    const latest = await web3.eth.getBlockNumber();
+    blockNumbers = range(latest, latest - param1, -1);
+  } else if (arguments.length == 2) {
+    blockNumbers = range(param1, param2, -1);
+  } else {
+    throw "this function can only take one or two parameters";
+  }
+  for (let i = 0; i < blockNumbers.length; i++) {
+    await exploreBlock(blockNumbers[i]);
+  }
+}
 
 module.exports = {
-  exploreBlock,
-  howMuchEth,
-  isContract,
-  txByUser,
-};
+    mixRange
+}
+

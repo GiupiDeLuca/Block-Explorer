@@ -38,7 +38,7 @@ contract Wallet is ReentrancyGuard, Pausable, Ownable {
      * @dev Checks the balance of the caller address
      */
 
-    function getMyBalance () public view returns (uint) {
+    function getMyBalance() public view returns (uint) {
         return balances[msg.sender];
     }
 
@@ -49,7 +49,7 @@ contract Wallet is ReentrancyGuard, Pausable, Ownable {
      * 
      */
 
-    function contractBalance () public view onlyOwner returns (uint) {
+    function contractBalance() public view onlyOwner returns (uint) {
         return address(this).balance;
     }
 
@@ -74,10 +74,12 @@ contract Wallet is ReentrancyGuard, Pausable, Ownable {
 
     function transfer(address payable _to) public payable whenNotPaused returns (bool _success) {
         require( balances[payable(msg.sender)] >= msg.value, "not enough balance");
-        // require no address (0)
+        require(_to != address(0));
         // updates balances
-        // send the transfer
-        // emit event
+        balances[payable(msg.sender)] = balances[payable(msg.sender)].sub(msg.value);
+        balances[payable(_to)] = balances[payable(_to)].add(msg.value);
+        // emits event
+        emit transferSuccessful(msg.sender, _to, msg.value);
         _success = true;
     }
 
