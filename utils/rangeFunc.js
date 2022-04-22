@@ -24,7 +24,6 @@ async function mixRange(param1, param2) {
   }
 
   for (let i = 0; i < blockNumbers.length; i++) {
-    // console.log("Current Block Number : ", blockNumbers[i]);
     const data = await exploreBlock(blockNumbers[i]);
     console.log(data);
   }

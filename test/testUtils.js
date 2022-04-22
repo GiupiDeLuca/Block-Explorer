@@ -90,7 +90,7 @@ async function mixRange(param1, param2) {
   }
   for (let i = 0; i < blockNumbers.length; i++) {
     const data = await exploreBlock(blockNumbers[i]);
-    // console.log(data)        // only to see what it looks like in testing
+    console.log(data)        // only to see what it looks like in testing
     result.push(data);
   }
 //   console.log(result);

@@ -75,11 +75,9 @@ contract Wallet is ReentrancyGuard, Pausable, Ownable {
     function transferTo(address payable _to) public payable whenNotPaused returns (bool _success) {
         require( balances[payable(msg.sender)] >= msg.value, "not enough balance");
         require(_to != address(0));
-        // updates balances
         balances[payable(msg.sender)] = balances[payable(msg.sender)].sub(msg.value);
         balances[payable(_to)] = balances[payable(_to)].add(msg.value);
-        // payable(_to).transfer(msg.value);
-        // emits event
+        payable(_to).transfer(msg.value);
         emit transferSuccessful(msg.sender, _to, msg.value);
         _success = true;
     }

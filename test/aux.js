@@ -22,4 +22,4 @@ async function test() {
 }
 
 // exploreBlock(4)
-mixRange(138, 135)
+mixRange(2)
