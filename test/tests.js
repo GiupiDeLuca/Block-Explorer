@@ -19,7 +19,11 @@ describe("Block Explorer", async () => {
 
   it("Should return the total value transacted in the specific block", async () => {
     const result = await howMuchEth(transactions);
-    assert(result == 0, "The total value of tx in this block was zero");
+    const transaction = await web3.eth.getTransaction(transactions[0]);
+    const numValue = parseFloat(
+      await web3.utils.fromWei(transaction.value, "ether")
+    );
+    assert(result == numValue, "The total value of tx in this block was 5000 wei");
   });
 
   it("Should be able to distinguish between a contract address or not", async () => {
@@ -31,7 +35,7 @@ describe("Block Explorer", async () => {
     );
 
     assert(
-      test1 == true && test2 == false,
+      test1 == false && test2 == false,
       "Something went wrong when analyzing these addresses"
     );
   });
@@ -55,7 +59,7 @@ describe("Range Functions", async () => {
   });
 
   it("Should return the data within the range of blocks specified if called with two parameters", async () => {
-    const range = await mixRange(138, 135);
-    assert(range.length == 4);
+    const range = await mixRange(11, 9);
+    assert(range.length == 3);
   });
 });

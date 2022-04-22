@@ -39,15 +39,15 @@ In order to test this program we're going to use **Ganache** which will allow us
 
 In a new terminal window we'll simply run `ganache`. We'll leave this running on our `localhost:8545`. 
 
-On a separate terminal window we'll then run `truffle migrate --reset --network development`. This command will run a migration on our **Solidity** contracts. I've created a file called **Wallet.sol** in the *contracts* directory with a simple *Wallet* contract. 
-
-The purpose is to give our newly created blockchain a little bit of action when running the migration. As you can see the migration script has a few account transacting, depositing and withdrawing. I didn't write any tests for this contract, but it's purpose is secondary in this case. 
-
-Once we have run *Ganache* on our *localhost* and the migrations, it is time to run the test, using *Truffle* again, by simply running 
+Once we have run *Ganache* on our *localhost*, it is time to run the test, using *Truffle* again, by simply running 
 
 `truffle test test/tests.js`. 
 
 The tests are pretty simple, and they cover only the basis. With more time I would have liked to have written a more thorough test suite for this project; checking for the right kind of user inputs as well as outputs, and covering some edge cases which could potentially leave the program exposed to bugs. 
+
+`truffle test` will automatically run the migrations, but, if we'd like to run them manually at any time, we could do so by going on a separate terminal window and then run `truffle migrate --reset --network development`. This command will run a migration on our **Solidity** contracts. I've created a file called **Wallet.sol** in the *contracts* directory with a simple *Wallet* contract. 
+
+The purpose is to give our newly created blockchain a little bit of action when running the migration. As you can see the migration script has a few account transacting, depositing and withdrawing. I didn't write any tests for this contract, but it's purpose is secondary in this case. 
 
 ### Next Steps
 The first next step would surely be to make our testing a little bit more robust, make the code a little bit more efficient, and again, checking for other edge cases which are at the moment uncovered. 

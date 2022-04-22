@@ -14,7 +14,6 @@ async function howMuchEth(transactions) {
       result += numValue;
     }
   }
-  //   console.log("total tx value", result);
   return result;
 }
 
@@ -57,12 +56,10 @@ async function txByUser(transactions, userType) {
     return acc;
   }, []);
 
-  //   console.log(`${userType}s`, result);
   return result;
 }
 
 async function exploreBlock(blockNum) {
-  // takes in a blocknumber
   const block = await web3.eth.getBlock(blockNum);
   const transactions = block.transactions;
 
@@ -73,7 +70,6 @@ async function exploreBlock(blockNum) {
     senders: await txByUser(transactions, "sender"),
   };
 
-  //   console.log(result);
   return result;
 }
 
@@ -90,10 +86,10 @@ async function mixRange(param1, param2) {
   }
   for (let i = 0; i < blockNumbers.length; i++) {
     const data = await exploreBlock(blockNumbers[i]);
-    console.log(data)        // only to see what it looks like in testing
+    // console.log(data)        // only to see what it looks like in testing
     result.push(data);
   }
-//   console.log(result);
+  // console.log(result);       // kept it here only for quick testing
   return result;
 }
 
