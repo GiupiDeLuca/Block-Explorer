@@ -9,6 +9,14 @@ const web3 = new Web3(
 
 const myArgs = process.argv.slice(2);
 
+/**
+ * Logs a data object based on the input params.
+ * If only one param = n it will log an object data for each of the last n blocks.
+ * If two params (n1, n2), it will log a data object for each block going from n1 to n2 inclusive.
+ * @param {int} param1 
+ * @param {int} param2 
+ */
+
 async function mixRange(param1, param2) {
   param1 = parseInt(param1);
   param2 = parseInt(param2);
